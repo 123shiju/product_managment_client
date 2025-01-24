@@ -19,7 +19,7 @@ const AddProduct = ({ isOpen, onClose }) => {
     const fetchSubCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/subcategory/Getall"
+          "https://product-management-server-1uuf.onrender.com/api/subcategory/Getall"
         );
         setSubCategories(response.data.categoriesWithSubcategories);
       } catch (error) {
