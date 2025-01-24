@@ -148,7 +148,7 @@ const Home = () => {
                 <Link to={`/productDetails/${product._id}`} key={product._id}>
                   <div key={product._id} className="border p-4 rounded">
                     <img
-                      src={`http://localhost:5000/${product.images[0]}`}
+                      src={`https://product-management-server-1uuf.onrender.com/${product.images[0]}`}
                       alt={product.title}
                       className="w-full h-48 object-cover mb-4"
                     />
