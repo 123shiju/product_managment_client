@@ -10,6 +10,8 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const [showsubModal, setSubShowModal] = useState(false);
@@ -17,7 +19,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  
 
   const openModal = () => {
     setShowModal(true);
@@ -57,6 +59,21 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    const fetchSubCategories = async () => {
+      try {
+        const response = await axios.get(
+          "https://product-management-server-1uuf.onrender.com/api/subcategory/Getall"
+        );
+        setSubCategories(response.data.categoriesWithSubcategories);
+      } catch (error) {
+        console.error("Failed to fetch subcategories:", error);
+      }
+    };
+
+    fetchSubCategories();
+  }, []);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
@@ -71,23 +88,32 @@ const Home = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const fetchSubCategories = async () => {
-      if (!selectedCategory) return; // Avoid fetching when no category is selected
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value.trim() === "") {
+      setFilteredProducts(products); 
+    } else {
+      setFilteredProducts(
+        products.filter(
+          (product) =>
+            product.title &&
+            product.title.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+    }
+  };
 
-      try {
-        const response = await axios.get(
-          `https://product-management-server-1uuf.onrender.com/api/subcategory/${selectedCategory}`
-        );
-        setSubCategories(response.data.subcategories);
-      } catch (error) {
-        console.error("Failed to fetch subcategories:", error);
-      }
-    };
-
-    fetchSubCategories();
-  }, [selectedCategory]);
-
+  const handleSubCategoryFilter = (subCategoryName) => {
+    setFilteredProducts(
+      products.filter((product) => {
+        const subCategory = product.subCategoryName || ""; 
+        return subCategory
+          .toLowerCase()
+          .includes(subCategoryName.toLowerCase());
+      })
+    );
+  };
+  
   return (
     <div>
       <Navbar />
@@ -96,17 +122,21 @@ const Home = () => {
           <div className="mb-4">
             <h2 className="text-xl font-semibold">Filter Categories</h2>
             <div className="space-y-2">
-              {categories.map((category) => (
-                <div key={category._id}>
-                  {" "}
-                  <input
-                    type="checkbox"
-                    id={category._id}
-                    value={category.categoryName}
-                  />
-                  <label htmlFor={category._id} className="ml-2">
-                    {category.categoryName}
-                  </label>
+              {subCategories.map((subcategory) => (
+                <div key={subcategory.subCategoryId}>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id={subcategory.subCategoryId}
+                      value={subcategory.subCategoryName}
+                      onChange={() =>
+                        handleSubCategoryFilter(subcategory.subCategoryName)
+                      } // Set selected subcategory
+                    />
+                    <label htmlFor={subcategory.subCategoryId} className="ml-2">
+                      {subcategory.subCategoryName}
+                    </label>
+                  </div>
                 </div>
               ))}
             </div>
@@ -114,25 +144,40 @@ const Home = () => {
         </div>
 
         <div className="w-4/5">
-          <div className="flex space-x-4 mb-4 justify-end mr-10">
-            <button
-              onClick={openModal}
-              className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
-            >
-              Add Category
-            </button>
-            <button
-              onClick={openSubModal}
-              className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
-            >
-              Add Subcategory
-            </button>
-            <button
-              onClick={openproductModal}
-              className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
-            >
-              Add Product
-            </button>
+          <div className="flex justify-between mb-4 items-center">
+            <div className="relative w-[300px] flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearch} // Handle search input change
+                placeholder="Search by product name..."
+                className="p-2 pl-10 rounded-[14px] h-10 w-[300px] bg-white text-black border-[1px] border-gray-300 focus:outline-none focus:border-[#eda415]"
+              />
+              <span className="absolute ml-[12.6rem] ml-6 top-1/2 transform -translate-y-1/2 text-white bg-[#eda415] rounded-[14px] h-10 w-[98px] flex items-center justify-center">
+                Search
+              </span>
+            </div>
+
+            <div className="flex space-x-4 ml-4">
+              <button
+                onClick={openModal}
+                className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
+              >
+                Add Category
+              </button>
+              <button
+                onClick={openSubModal}
+                className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
+              >
+                Add Subcategory
+              </button>
+              <button
+                onClick={openproductModal}
+                className="bg-[#eda415] p-2 rounded-[14px] text-[#fff]"
+              >
+                Add Product
+              </button>
+            </div>
           </div>
           <AddCategory show={showModal} onClose={closeModal} />
           <AddsubCategory
