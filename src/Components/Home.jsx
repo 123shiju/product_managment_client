@@ -120,7 +120,7 @@ const Home = () => {
       <div className="flex p-4">
         <div className="w-1/5 pr-4">
           <div className="mb-4">
-            <h2 className="text-xl font-semibold">Filter Categories</h2>
+            <h2 className="text-xl font-semibold">Categories</h2>
             <div className="space-y-2">
               {subCategories.map((subcategory) => (
                 <div key={subcategory.subCategoryId}>
