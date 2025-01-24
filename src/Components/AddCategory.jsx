@@ -17,7 +17,7 @@ const AddCategory = ({ show, onClose }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/category/Addcategories", // Replace with your actual backend URL
+        "https://product-management-server-1uuf.onrender.com/api/category/Addcategories", // Replace with your actual backend URL
         { categoryName: categoryName }
       );
 

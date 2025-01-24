@@ -17,7 +17,7 @@ const ProductDetailsPage = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/product/productDetails/${id}`
+          `https://product-management-server-1uuf.onrender.com/api/product/productDetails/${id}`
         );
         setProduct(response.data.product);
       } catch (err) {
@@ -54,7 +54,7 @@ const ProductDetailsPage = () => {
     setSelectedRam(ram);
   };
 
-  console.log("products", product);
+  
   return (
     <>
       <Navbar />

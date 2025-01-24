@@ -21,7 +21,7 @@ const AddsubCategory = ({ show, onClose, categories }) => {
     try {
       // API call to add subcategory
       const response = await axios.post(
-        "http://localhost:5000/api/subcategory/Addsubcategories",
+        "https://product-management-server-1uuf.onrender.com/api/subcategory/Addsubcategories",
         {
           categoryId, // Sending categoryId instead of categoryName
           subCategoryName, // Updated field name

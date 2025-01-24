@@ -43,7 +43,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/product/displayAll"
+          "https://product-management-server-1uuf.onrender.com/api/product/displayAll"
         );
         setProducts(response.data.products);
         setLoading(false);
@@ -60,7 +60,7 @@ const Home = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/category/GetAll"
+          "https://product-management-server-1uuf.onrender.com/api/category/GetAll"
         );
         setCategories(response.data.categories);
       } catch (error) {
@@ -77,7 +77,7 @@ const Home = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/subcategory/${selectedCategory}`
+          `https://product-management-server-1uuf.onrender.com/api/subcategory/${selectedCategory}`
         );
         setSubCategories(response.data.subcategories);
       } catch (error) {
