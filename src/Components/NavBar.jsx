@@ -7,7 +7,7 @@ const Navbar = () => (
     <div className="text-white text-2xl"></div>
     <div className="relative">
      
-      </span>
+     
     </div>
 
     <div className="flex items-center space-x-6">
