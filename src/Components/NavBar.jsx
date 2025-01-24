@@ -6,13 +6,7 @@ const Navbar = () => (
   <nav className="bg-[#003f62] p-4 flex justify-between items-center">
     <div className="text-white text-2xl"></div>
     <div className="relative">
-      <input
-        type="text"
-        placeholder="Search..."
-        className="p-2 pl-10 rounded-[14px] h-10 w-[400px] bg-white text-black"
-      />
-      <span className="absolute -right-1 ml-6 top-1/2 transform -translate-y-1/2 text-white bg-[#eda415] rounded-[14px] h-10 w-[98px] flex items-center justify-center">
-        Search
+     
       </span>
     </div>
 
