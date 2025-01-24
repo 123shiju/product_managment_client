@@ -29,7 +29,7 @@ const AuthPage = () => {
         }
 
         const response = await axios.post(
-          "http://localhost:5000/api/auth/signin",
+          "https://product-management-server-1uuf.onrender.com/api/auth/signin",
           { email, password },
           {
             headers: {
@@ -43,7 +43,7 @@ const AuthPage = () => {
         navigate("/home");
       } else {
         const response = await axios.post(
-          "http://localhost:5000/api/auth/signup",
+          "https://product-management-server-1uuf.onrender.com/api/auth/signup",
           { email, password, name }
         );
 
